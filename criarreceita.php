@@ -156,8 +156,7 @@ if (isset($_GET["acao"])) {
 
                                         </div>
                                         <div class="col-sm2-1" style="margin-left:10px;margin-top:5px;">
-                                            <div style="font-size:17px;">Formulario para Criar Receita
-                                            </div>
+                                            <h3>Formulario para Criar Receita</h3>
                                         </div>
                                         <div class="col-sm2-10">
                                         </div>
@@ -174,13 +173,13 @@ if (isset($_GET["acao"])) {
                                         <div class="form-group">
                                             <label class="control-label col-sm-2" for="nome">Nome:</label>
                                             <div class="col-sm-10">
-                                                <input type="name" class="form-control" id="nome" placeholder="Digite o nome da Receita" name="nome">
+                                                <input type="name" class="form-control" id="nome" placeholder="Digite o nome da Receita" name="nome" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label col-sm-2" for="pwd">Descrição:</label>
                                             <div class="col-sm-10">
-                                                <textarea name="conteudo" class="form-control" rows="5" id="descricao" placeholder="Fale um pouco sobre a receita e seus ingredientes"></textarea>
+                                                <textarea name="conteudo" class="form-control" rows="5" id="descricao" placeholder="Fale um pouco sobre a receita e seus ingredientes" required></textarea>
                                             </div>
                                         </div>
 

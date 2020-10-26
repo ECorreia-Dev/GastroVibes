@@ -87,9 +87,14 @@ if (!isset($_SESSION['usuario'])) {
                       <img width="30px" height="30px" src="img/<?= $item->ufoto ?>" class="img-circle" alt="User Image">
                     </div>
                     <div class="col-sm2-1" style="margin-left:10px;margin-top:5px;">
-                      <div style="font-size:17px;"><?= $item->unome ?></div>
+                      <h4><?= $item->unome ?></h4>
                     </div>
-                    <div class="col-sm2-10"></div>
+                    <div class="col-sm2-2">
+                      <a class="btn btn-outline-success btn-sm mx-2" href="./main.php?action=seguir&id=<?= $item->usuario_id ?>">
+                        <span class="fas fa-user-friends"></span> Seguir
+                      </a>
+                    </div>
+                    <div class="col-sm2-8"></div>
                   </div>
                 </div>
               </div>
@@ -131,16 +136,16 @@ if (!isset($_SESSION['usuario'])) {
           </div>
           <div class="card">
             <div class="card-body">
-              <h5 class="text-blue">Seguidores</h5>
+              <h5 class="text-blue">Seguindo</h5>
               <ul class="list-group">
-                <?php foreach (Connection::QueryAll("select * from ver_seguidores") as $item) { ?>
+                <?php foreach (Connection::QueryAll("select * from ver_seguidores where seguidor_id = '" . $_SESSION['usuario']->id . "'") as $item) { ?>
                   <li class="list-group-item">
                     <div class="row">
                       <div class="col-md-4">
                         <img src="img/<?= $item->foto ?? 'default-150x150.png' ?>" class="img-circle w-100" alt="Follower Image">
                       </div>
                       <div class="col-md-8 d-flex align-items-center">
-                        <h5><?= $item->seguidor ?></h5>
+                        <h5><?= $item->seguido ?></h5>
                       </div>
                     </div>
                   </li>
