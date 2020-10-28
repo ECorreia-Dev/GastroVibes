@@ -9,7 +9,7 @@ usuario varchar(10) not null,
 email varchar(45) not null,
 nome varchar(45)not null,
 senha varchar(45)not null,
-foto varchar(100)not null default'usuario_default.png',
+foto varchar(100)not null default'img/usuario_default.png',
 data_nascimento date not null
 )ENGINE = InnoDB;
 
@@ -19,10 +19,10 @@ create table tbl_publicacoes(
   foto varchar(100) not null default'default-150x150.png',
   nome varchar(80) not null,
   conteudo text,
+  status enum('ativo','inativo') not null,
   -- atr. like removido, tornou-se tbl separada.
   usuario_id int not null,
   foreign key (usuario_id) references tbl_usuario(id)
-  
 )ENGINE = INNODB;
 
 -- favoritas

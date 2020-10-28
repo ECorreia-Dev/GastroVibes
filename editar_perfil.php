@@ -189,7 +189,7 @@ if (isset($_GET["acao"])) {
                 <div class="col-md-3">
                     <div id="div_foto">
                         <br>
-                        <img id="img_foto" src="img/<?= $_SESSION['usuario']->foto ?>" alt="<?= $_SESSION['usuario']->usuario ?>'s profile photo">
+                        <img id="img_foto" src="<?= $_SESSION['usuario']->foto ?>" alt="<?= $_SESSION['usuario']->usuario ?>'s profile photo">
                     </div>
                     <input type="file" name="foto" id="input_foto" accept="image/*" class="d-none">
                     <div class="mt-1">

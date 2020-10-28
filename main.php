@@ -78,21 +78,23 @@ if (!isset($_SESSION['usuario'])) {
       <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-6">
-          <?php foreach (Connection::QueryAll("select * from ver_publicacoes order by id desc") as $item) { ?>
+          <?php foreach (Connection::QueryAll("select * from ver_publicacoes where status = 'ativo' order by id desc") as $item) { ?>
             <div class="card">
               <div class="card-header">
                 <div class="card-title">
                   <div class="row mb-2">
                     <div class="col-sm2-1">
-                      <img width="30px" height="30px" src="img/<?= $item->ufoto ?>" class="img-circle" alt="User Image">
+                      <img width="30px" height="30px" src="<?= $item->ufoto ?>" class="img-circle" alt="User Image">
                     </div>
                     <div class="col-sm2-1" style="margin-left:10px;margin-top:5px;">
                       <h4><?= $item->unome ?></h4>
                     </div>
                     <div class="col-sm2-2">
-                      <a class="btn btn-outline-success btn-sm mx-2" href="./main.php?action=seguir&id=<?= $item->usuario_id ?>">
-                        <span class="fas fa-user-friends"></span> Seguir
-                      </a>
+                      <?php if ($item->usuario_id !== $_SESSION['usuario']->id) { ?>
+                        <a class="btn btn-outline-success btn-sm mx-2" href="./main.php?action=seguir&id=<?= $item->usuario_id ?>">
+                          <span class="fas fa-user-friends"></span> Seguir
+                        </a>
+                      <?php } ?>
                     </div>
                     <div class="col-sm2-8"></div>
                   </div>
@@ -105,17 +107,21 @@ if (!isset($_SESSION['usuario'])) {
               <div class="card-footer">
                 <a class="btn btn-outline-success btn-sm" href="./main.php?action=favoritar&id=<?= $item->id ?>">
                   <!-- //ins. rec._salvas vai precisar mudar um monte de coisa mas o conceito é esse -->
-                  <span class="fa fa-plus"></span> Favoritar
+                  <span class="fa fa-plus"></span>
                 </a>
                 <?php
                 $likes = Connection::QueryObject("select quant_likes as quantidade from ver_likes where publicacao_id = '" . $item->id . "'")->quantidade ?? 0;
                 ?>
                 <a class="btn btn-outline-primary btn-sm" href="./main.php?action=like&id=<?= $item->id ?>">
                   <!-- //upd. public. mesma coisa do de cima -->
-                  <span class="fa fa-thumbs-up"></span> Like
+                  <span class="fa fa-thumbs-up"></span>
                 </a>
-                <b><?= $likes ?></b>
-
+                <b> <?= $likes ?></b>
+                <?php if ($item->usuario_id == $_SESSION['usuario']->id) { ?>
+                  <a class="text-danger float-right excluir" data-id="<?= $item->id ?>">
+                    <span class="fas fa-trash"></span>
+                  </a>
+                <?php } ?>
               </div>
             </div>
           <?php } ?>
@@ -126,7 +132,7 @@ if (!isset($_SESSION['usuario'])) {
             <div class="card-body">
               <div class="row">
                 <div class="col-md-4">
-                  <img src="img/<?= $_SESSION['usuario']->foto ?>" class="img-circle w-100" alt="User Image">
+                  <img width="100px" height="100px" src="<?= $_SESSION['usuario']->foto ?>" class="img-circle p-2" alt="User Image">
                 </div>
                 <div class="col-md-8 d-flex align-items-center">
                   <h5><?= $_SESSION['usuario']->nome ?></h5>
@@ -136,16 +142,16 @@ if (!isset($_SESSION['usuario'])) {
           </div>
           <div class="card">
             <div class="card-body">
-              <h5 class="text-blue">Seguindo</h5>
+              <h6 class="text-blue">Seguindo</h6>
               <ul class="list-group">
                 <?php foreach (Connection::QueryAll("select * from ver_seguidores where seguidor_id = '" . $_SESSION['usuario']->id . "'") as $item) { ?>
                   <li class="list-group-item">
                     <div class="row">
                       <div class="col-md-4">
-                        <img src="img/<?= $item->foto ?? 'default-150x150.png' ?>" class="img-circle w-100" alt="Follower Image">
+                        <img src="<?= $item->foto ?? 'img/usuariodefault.png' ?>" class="img-circle w-100" alt="Follower Image">
                       </div>
                       <div class="col-md-8 d-flex align-items-center">
-                        <h5><?= $item->seguido ?></h5>
+                        <h6><?= $item->seguido ?></h6>
                       </div>
                     </div>
                   </li>
@@ -164,5 +170,22 @@ if (!isset($_SESSION['usuario'])) {
     </div>
   </main>
 </body>
+<script>
+  $(document).ready(() => {
+    $(".excluir").on("click", function() {
+      //funciona com base no usuario_id -> data-id
+      let id = $(this).data("id")
+      //chamar o sweetalert
+      Swal.fire({
+        titleText: 'Tem Certeza?',
+        showDenyButton: true,
+        confirmButtonText: 'Sim',
+        denyButtonText: 'Não',
+      }).then(r => { //a r r o w # f u n c t i o n 
+        if (r.isConfirmed) location = `./main.php?action=excluir&id=${id}`
+      })
+    })
+  })
+</script>
 
 </html>

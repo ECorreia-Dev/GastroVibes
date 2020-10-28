@@ -95,7 +95,7 @@ if (!isset($_SESSION['usuario'])) {
             </div>
             <div class="row mb-2">
                 <div class="col-md-6 d-flex flex-row-reverse">
-                    <img style="height: 100px; width: 100px" src="img/<?= $_SESSION['usuario']->foto ?>" class="img-circle" alt="User Image">
+                    <img style="height: 100px; width: 100px" src="<?= $_SESSION['usuario']->foto ?>" class="img-circle" alt="User Image">
                 </div>
                 <?php
                 $quant = Connection::QueryObject("select count(*) as quantidade from ver_publicacoes where usuario_id = '" . $_SESSION['usuario']->id . "'")->quantidade ?? 0;
@@ -128,7 +128,7 @@ if (!isset($_SESSION['usuario'])) {
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <?php foreach (Connection::QueryAll("select * from ver_publicacoes where usuario_id = '" . $_SESSION['usuario']->id . "'") as $item) { ?>
+                                <?php foreach (Connection::QueryAll("select * from ver_publicacoes where usuario_id = '" . $_SESSION['usuario']->id . "' and status = 'ativo' ") as $item) { ?>
                                     <div class="col-4">
                                         <div class="card">
                                             <div class="card-img-top">

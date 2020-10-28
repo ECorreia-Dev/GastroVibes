@@ -53,7 +53,7 @@ require_once './inc/config.php';
         <div class="row">
             <div class="col-sm-3"></div>
             <div class="col-sm-6" align=center>
-                <form method="post" action="cadastro.php" enctype="multipart/form-data">
+                <form method="post" action="index.php?action=registrar" enctype="multipart/form-data">
                     <div class="card " style="border-color: #9B111E;">
                         <div class="card-header text-light" style=" background-color: #9B111E;">
                             <h2>Registre sua Conta</h2>
