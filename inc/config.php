@@ -49,7 +49,7 @@ class Connection
         $usuario_id = $_SESSION['usuario']->id;
         self::Query("insert into tbl_favoritas values (null, '$id', '$usuario_id')");
         //self é um 'this' obscuro, que chama a classe em si
-        break;
+      break;
       case 'like':
         $id = $_REQUEST['id'];
         $usuario_id = $_SESSION['usuario']->id;
@@ -59,20 +59,23 @@ class Connection
         $id = $_REQUEST['id'];
         $usuario_id = $_SESSION['usuario']->id;
         self::Query("update tbl_publicacoes set status = 'inativo' where id = '$id' and usuario_id = '$usuario_id'");
-        break;
+      break;
       case 'seguir':
         //criador do post
         $usuario_id = $_REQUEST['id'];
         //usuario ativo
         $seguidor_id = $_SESSION['usuario']->id;
         self::Query("insert into tbl_seguindo values (null, '$usuario_id', '$seguidor_id')");
-        break;
+      break;
       case 'registrar':
         $foto = "img/usuariodefault.png";
         $data_nascimento = "CURRENT_TIMESTAMP";
         $POST = (object)$_REQUEST;
         self::Query("insert into tbl_usuario values 
         (null, '$POST->usuario', '$POST->email', '$POST->nome', '$POST->senha', '$foto', $data_nascimento)");
+        break;
+        case 'exibir':
+          
         break;
     }
   }

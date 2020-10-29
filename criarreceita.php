@@ -54,6 +54,7 @@ if (isset($_GET["acao"])) {
   <link rel="stylesheet" href="css/adminlte.min.css">
   <link rel="stylesheet" href="css/adminlte.css">
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
 
   <style>

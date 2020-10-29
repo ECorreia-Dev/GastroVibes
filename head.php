@@ -11,11 +11,12 @@
   <link rel="stylesheet" href="css/adminlte.css">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
   <link href="./inc/sweetalert/sweetalert2.min.css" rel="stylesheet">
+  <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
  <!-- plugins && scripts -->
+  <script type="text/javascript" src="./inc/sweetalert/sweetalert2.min.js"></script>
   <script src="plugins/jquery/jquery.min.js"></script>
   <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
-  <script type="text/javascript" src="./inc/sweetalert/sweetalert2.min.js"></script>
   <script src="js/adminlte.min.js"></script>
   <script src="js/demo.js"></script>
   <style>

@@ -2,7 +2,13 @@
 if (!isset($_SESSION['usuario'])) {
   $_SESSION['msg'] = "<div class='alert alert-warning'> É necessário fazer o login! </div>";
   header("Location: ./");
-} ?>
+}
+
+$req = (object) $_REQUEST;
+
+$usuario = Connection::QueryObject("select * from tbl_usuario where id = '" . $req->id . "'");
+
+?>
 
 <!DOCTYPE html>
 <html>
@@ -99,17 +105,20 @@ if (!isset($_SESSION['usuario'])) {
       </div>
       <div class="row mb-2">
         <div class="col-md-6 d-flex flex-row-reverse">
-          <img style="height: 100px; width: 100px" src="<?= $_SESSION['usuario']->foto ?>" class="img-circle" alt="User Image">
+          <img style="height: 100px; width: 100px" src="<?= $usuario->foto ?>" class="img-circle" alt="User Image">
         </div>
         <?php
-        $quant = Connection::QueryObject("select count(*) as quantidade from ver_publicacoes where usuario_id = '" . $_SESSION['usuario']->id . "'")->quantidade ?? 0;
-        $seguidores = Connection::QueryObject("select count(*) as quantidade from ver_seguidores where usuario_id = '" . $_SESSION['usuario']->id . "'")->quantidade ?? 0;
-        $seguindo = Connection::QueryObject("select count(*) as quantidade from ver_seguidores where seguidor_id = '" . $_SESSION['usuario']->id . "'")->quantidade ?? 0;
-        $arr_seguidores = Connection::QueryAll("select * from ver_seguidores where usuario_id = '" . $_SESSION['usuario']->id . "'");
+        $quant = Connection::QueryObject("select count(*) as quantidade from ver_publicacoes where usuario_id = '" . $req->id . "'")->quantidade ?? 0;
+        $seguidores = Connection::QueryObject("select count(*) as quantidade from ver_seguidores where usuario_id = '" . $req->id . "'")->quantidade ?? 0;
+        $seguindo = Connection::QueryObject("select count(*) as quantidade from ver_seguidores where seguidor_id = '" . $req->id . "'")->quantidade ?? 0;
+        $arr_seguidores = Connection::QueryAll("select * from ver_seguidores where usuario_id = '" . $req->id . "'");
         ?>
         <div class="col-md-6">
-          <div>
-            <h5><b><?= $_SESSION['usuario']->nome ?></b> <a href="./editar_perfil.php" class="btn btn-primary"><i class="fas fa-cog"></i></a></h5>
+          <div><h5><b><?= $usuario->nome ?></b>
+          <?php if ($_SESSION['usuario']->id === $usuario->id) { ?>
+             <a href="./editar_perfil.php" class="btn btn-primary"><i class="fas fa-cog"></i></a>
+            <?php } ?>
+            </h5>
             <p><?= $quant ?> Publicaç<?= $quant == 1 ? 'ão' : 'ões' ?></p>
             <span> <?= $seguidores ?> Seguidores</span><span class="ml-2"><?= $seguindo ?> Seguindo</span>
 
@@ -151,14 +160,14 @@ if (!isset($_SESSION['usuario'])) {
             </div>
             <div class="card-body">
               <div class="row">
-                <?php foreach (Connection::QueryAll("select * from ver_publicacoes where usuario_id = '" . $_SESSION['usuario']->id . "' and status = 'ativo' ") as $item) { ?>
+                <?php foreach (Connection::QueryAll("select * from ver_publicacoes where usuario_id = '" . $req->id . "' and status = 'ativo' ") as $item) { ?>
                   <div class="col-4">
                     <div class="card">
                       <div class="card-img-top">
                         <img class="w-100" style="object-fit: cover" src='img/<?= $item->foto ?>' alt='User Image'>
                       </div>
                       <div class="card-footer"><?= $item->nome ?>
-                        <?php if ($item->usuario_id == $_SESSION['usuario']->id) { ?>
+                        <?php if ($item->usuario_id == $usuario->id) { ?>
                           <!-- Atualizar -->
                           <div class="float-right">
                             <a class="text-warning atualizar p-1" data-id="<?= $item->id ?>">
@@ -192,7 +201,7 @@ if (!isset($_SESSION['usuario'])) {
             </div>
             <div class="card-body">
               <div class="row">
-                <?php foreach (Connection::QueryAll("select * from ver_favoritas where uid = '" . $_SESSION['usuario']->id . "'") as $item) { ?>
+                <?php foreach (Connection::QueryAll("select * from ver_favoritas where uid = '" . $usuario->id . "'") as $item) { ?>
                   <div class="col-4">
                     <div class="card">
                       <div class="card-img-top">
