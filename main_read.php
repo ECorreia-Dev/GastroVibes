@@ -9,6 +9,8 @@ if (!isset($_SESSION['usuario'])) {
   exit;
 }
 
+$req = (object) $_REQUEST;
+
 ?>
 
 <!DOCTYPE html>
@@ -78,7 +80,7 @@ if (!isset($_SESSION['usuario'])) {
       <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-6">
-          <?php foreach (Connection::QueryAll("select * from ver_publicacoes where status = 'ativo' order by id desc") as $item) { ?>
+          <?php foreach (Connection::QueryAll("select * from ver_publicacoes where status = 'ativo' where id= ". $req->id . " order by id desc") as $item) { ?>
             <div class="card">
               <div class="card-header">
                 <div class="card-title">
@@ -101,9 +103,7 @@ if (!isset($_SESSION['usuario'])) {
                 </div>
               </div>
               <div class="card-body">
-                <a href="./main_read?id=<?=$item->id ?? 1 ?>">
-                  <img class="img-fluid w-100" style="object-fit: contain; max-height: 250px" src='img/<?= $item->foto ?>' alt='Img. Receita'>
-                </a>
+                <img class="img-fluid w-100" style="object-fit: contain; max-height: 250px" src='img/<?= $item->foto ?>' alt='Img. Receita'>
                 <div class="card-body"><?= $item->conteudo ?></div>
               </div>
               <div class="card-footer">
@@ -150,7 +150,7 @@ if (!isset($_SESSION['usuario'])) {
                   <li class="list-group-item">
                     <div class="row">
                       <div class="col-md-4">
-                        <a href="./perfil_read?id=<?= $item->uid ?? 1 ?>"><img src="<?= $item->foto ?? 'img/usuariodefault.png' ?>" class="img-circle w-100" alt="Follower Image">
+                        <img src="<?= $item->foto ?? 'img/usuariodefault.png' ?>" class="img-circle w-100" alt="Follower Image">
                       </div>
                       <div class="col-md-8 d-flex align-items-center">
                         <h6><?= $item->seguido ?></h6>

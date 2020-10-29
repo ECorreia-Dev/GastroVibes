@@ -167,18 +167,6 @@ $usuario = Connection::QueryObject("select * from tbl_usuario where id = '" . $r
                         <img class="w-100" style="object-fit: cover" src='img/<?= $item->foto ?>' alt='User Image'>
                       </div>
                       <div class="card-footer"><?= $item->nome ?>
-                        <?php if ($item->usuario_id == $usuario->id) { ?>
-                          <!-- Atualizar -->
-                          <div class="float-right">
-                            <a class="text-warning atualizar p-1" data-id="<?= $item->id ?>">
-                              <span class="fas fa-pen"></span>
-                            </a>
-                            <!-- Excluir -->
-                            <a class="text-danger excluir p-1" data-id="<?= $item->id ?>">
-                              <span class="fas fa-trash"></span>
-                            </a>
-                          </div>
-                        <?php } ?>
                       </div>
                     </div>
                   </div>
