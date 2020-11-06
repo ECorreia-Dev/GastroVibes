@@ -152,7 +152,7 @@ $usuario = Connection::QueryObject("select * from tbl_usuario where id = '" . $r
               <div class="card-title">
                 <div class="col-sm-12">
                   <div style="font-size:18px;">
-                    <p>Publicações</p>
+                    <a href="./main_user.php?id='<?= $req->id ?>'">Publicações</a>
                     <!-- publicações criadas pelo usuario ativo -->
                   </div>
                 </div>

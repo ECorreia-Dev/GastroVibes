@@ -9,7 +9,7 @@ if (!isset($_SESSION['usuario'])) {
   exit;
 }
 
-$req = (object) $_REQUEST;
+$req = (object)$_REQUEST;
 
 ?>
 
@@ -80,7 +80,7 @@ $req = (object) $_REQUEST;
       <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-6">
-          <?php foreach (Connection::QueryAll("select * from ver_publicacoes where status = 'ativo' where id= ". $req->id . " order by id desc") as $item) { ?>
+          <?php foreach (Connection::QueryAll("select * from ver_publicacoes where status = 'ativo' and id='$req->id'") as $item) { ?>
             <div class="card">
               <div class="card-header">
                 <div class="card-title">
@@ -93,7 +93,7 @@ $req = (object) $_REQUEST;
                     </div>
                     <div class="col-sm2-2">
                       <?php if ($item->usuario_id !== $_SESSION['usuario']->id) { ?>
-                        <a class="btn btn-outline-success btn-sm mx-2" href="./main.php?action=seguir&id=<?= $item->usuario_id ?>">
+                        <a class="seguir btn btn-outline-success btn-sm mx-2" data-id="<?= $item->usuario_id ?>">
                           <span class="fas fa-user-friends"></span> Seguir
                         </a>
                       <?php } ?>
@@ -107,22 +107,27 @@ $req = (object) $_REQUEST;
                 <div class="card-body"><?= $item->conteudo ?></div>
               </div>
               <div class="card-footer">
-                <a class="btn btn-outline-success btn-sm" href="./main.php?action=favoritar&id=<?= $item->id ?>">
-                  <!-- //ins. rec._salvas vai precisar mudar um monte de coisa mas o conceito é esse -->
+                <a class="btn btn-outline-success btn-sm favoritar" data-id="<?= $item->id ?>">
+                  <!-- //ins. favoritas -> vai precisar mudar um monte de coisa mas o conceito é esse -->
                   <span class="fa fa-plus"></span>
                 </a>
                 <?php
                 $likes = Connection::QueryObject("select quant_likes as quantidade from ver_likes where publicacao_id = '" . $item->id . "'")->quantidade ?? 0;
                 ?>
-                <a class="btn btn-outline-primary btn-sm" href="./main.php?action=like&id=<?= $item->id ?>">
+                <a class="btn btn-outline-primary btn-sm" href="./main.php?action=curtir&id=<?= $item->id ?>">
                   <!-- //upd. public. mesma coisa do de cima -->
                   <span class="fa fa-thumbs-up"></span>
                 </a>
                 <b> <?= $likes ?></b>
                 <?php if ($item->usuario_id == $_SESSION['usuario']->id) { ?>
-                  <a class="text-danger float-right excluir" data-id="<?= $item->id ?>">
-                    <span class="fas fa-trash"></span>
-                  </a>
+                  <div class="float-right">
+                    <a class="text-warning atualizar p-1" href="./atualizarreceita.php?id=<?= $item->id ?>">
+                      <span class="fas fa-pen"></span>
+                    </a>
+                    <a class="text-danger excluir" data-id="<?= $item->id ?>">
+                      <span class="fas fa-trash"></span>
+                    </a>
+                  </div>
                 <?php } ?>
               </div>
             </div>
@@ -150,7 +155,9 @@ $req = (object) $_REQUEST;
                   <li class="list-group-item">
                     <div class="row">
                       <div class="col-md-4">
-                        <img src="<?= $item->foto ?? 'img/usuariodefault.png' ?>" class="img-circle w-100" alt="Follower Image">
+                        <a href="./perfil_read?id=<?= $item->uid ?? 1 ?>">
+                          <img src="<?= $item->ufoto ?? 'img/usuariodefault.png' ?>" class="img-circle w-100" alt="Follower Image">
+                        </a>
                       </div>
                       <div class="col-md-8 d-flex align-items-center">
                         <h6><?= $item->seguido ?></h6>
@@ -174,6 +181,34 @@ $req = (object) $_REQUEST;
 </body>
 <script>
   $(document).ready(() => {
+    $(".seguir").on("click", function() {
+      //funciona com base no usuario_id -> data-id
+      let id = $(this).data("id")
+      //chamar o sweetalert
+      Swal.fire({
+        titleText: 'Tem Certeza?',
+        showDenyButton: true,
+        confirmButtonText: 'Sim',
+        denyButtonText: 'Não',
+      }).then(r => { //a r r o w # f u n c t i o n 
+        if (r.isConfirmed) location = `./main.php?action=excluir&id=${id}`
+      })
+    })
+
+    $(".favoritar").on("click", function() {
+      //funciona com base no usuario_id -> data-id
+      let id = $(this).data("id")
+      //chamar o sweetalert
+      Swal.fire({
+        titleText: 'Tem Certeza?',
+        showDenyButton: true,
+        confirmButtonText: 'Sim',
+        denyButtonText: 'Não',
+      }).then(r => { //a r r o w # f u n c t i o n 
+        if (r.isConfirmed) location = `./main.php?action=excluir&id=${id}`
+      })
+    })
+
     $(".excluir").on("click", function() {
       //funciona com base no usuario_id -> data-id
       let id = $(this).data("id")

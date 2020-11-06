@@ -9,6 +9,8 @@ if (!isset($_SESSION['usuario'])) {
   exit;
 }
 
+$req = (object)$_REQUEST;
+var_dump($_REQUEST);
 ?>
 
 <!DOCTYPE html>
@@ -78,7 +80,7 @@ if (!isset($_SESSION['usuario'])) {
       <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-6">
-          <?php foreach (Connection::QueryAll("select * from ver_publicacoes where status = 'ativo' order by id desc") as $item) { ?>
+        <?php foreach (Connection::QueryAll("select * from ver_publicacoes where status = 'ativo' and uid = '". $req->id ."' order by id desc") as $item) { ?>
             <div class="card">
               <div class="card-header">
                 <div class="card-title">

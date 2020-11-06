@@ -109,7 +109,7 @@ if (!isset($_SESSION['usuario'])) {
         ?>
         <div class="col-md-6">
           <div>
-            <h5><b><?= $_SESSION['usuario']->nome ?></b> <a href="./editar_perfil.php" class="btn btn-primary"><i class="fas fa-cog"></i></a></h5>
+            <h5><b><?= $_SESSION['usuario']->nome ?></b> <a href="./editar_perfil.php" class="text-primary"><i class="fas fa-cog"></i></a></h5>
             <p><?= $quant ?> Publicaç<?= $quant == 1 ? 'ão' : 'ões' ?></p>
             <span> <?= $seguidores ?> Seguidores</span><span class="ml-2"><?= $seguindo ?> Seguindo</span>
 
@@ -161,7 +161,7 @@ if (!isset($_SESSION['usuario'])) {
                         <?php if ($item->usuario_id == $_SESSION['usuario']->id) { ?>
                           <!-- Atualizar -->
                           <div class="float-right">
-                            <a class="text-warning atualizar p-1" data-id="<?= $item->id ?>">
+                            <a class="text-warning atualizar p-1" href="./atualizarreceita.php?id=<?= $item->id ?>">
                               <span class="fas fa-pen"></span>
                             </a>
                             <!-- Excluir -->

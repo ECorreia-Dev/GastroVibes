@@ -76,10 +76,12 @@ if (isset($_GET["acao"])) {
     <script src="js/demo.js"></script>
     <script src="plugins/filterizr/jquery.filterizr.min.js"></script>
     <script>
+
+      //codigo do janczak
         $(document).ready(() => {
             $("#input_foto").on("change", function() {
                 if (this.files && this.files[0]) {
-                    let reader = new FileReader()
+                  let reader = new FileReader()
                     reader.onload = function(e) {
                         $("#img_foto").attr("src", e.target.result)
                     }

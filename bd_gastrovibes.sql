@@ -66,7 +66,8 @@ select
   r.*,
   u.nome as seguido,
   s.nome as seguidor,
-  u.id as uid
+  u.id as uid,
+  u.foto as ufoto
 from tbl_seguindo r
 join tbl_usuario u on u.id = r.usuario_id
 join tbl_usuario s on s.id = r.seguidor_id;
@@ -74,6 +75,7 @@ join tbl_usuario s on s.id = r.seguidor_id;
 create view ver_publicacoes as
 select
   p.*,
+  p.usuario_id as uid,
   u.foto as ufoto,
   u.nome as unome
 from tbl_publicacoes p
